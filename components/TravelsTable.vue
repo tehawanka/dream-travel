@@ -1,7 +1,9 @@
 <script>
 import { reactive, computed } from 'vue';
 import { useTravelStore } from '@/store/travelsStore';
-import AddEditTravelForm from './AddEditTravelForm.vue';
+import EditTravelForm from './EditTravelForm.vue';
+import AddTravelForm from './AddTravelForm.vue';
+
 export default {
   setup() {
     const store = useTravelStore();
@@ -31,7 +33,8 @@ export default {
 </script>
 <template>
   <div class="container mx-auto">
-    <AddEditTravelForm />
+    <!-- <AddTravelForm /> -->
+    <EditTravelForm :travelId="1"/>
     <input v-model="filter.name" type="text" placeholder="Search by name" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
     <input v-model="filter.date" type="date" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
     <table class="min-w-full bg-white">
@@ -60,4 +63,4 @@ export default {
       </tbody>
     </table>
   </div>
-</template>
+</template>./AddTravelForm.vue

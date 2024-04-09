@@ -11,8 +11,8 @@ export const useTravelStore = defineStore({
         departureDates: "2023-01-01",
         picture: "https://picsum.photos/id/10/200/300",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        price: 800.99,
-        rating: 4.5,
+        price: 700,
+        rating: 4,
       },
       {
         id: 2,
@@ -21,8 +21,8 @@ export const useTravelStore = defineStore({
         picture: "https://picsum.photos/id/13/200/300",
         description:
           "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        price: 800.99,
-        rating: 4.8,
+        price: 800,
+        rating: 4,
       },
       {
         id: 3,
@@ -31,8 +31,8 @@ export const useTravelStore = defineStore({
         picture: "https://picsum.photos/id/14/200/300",
         description:
           "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        price: 800.99,
-        rating: 4.8,
+        price: 700,
+        rating: 4,
       },
       {
         id: 4,
@@ -41,8 +41,8 @@ export const useTravelStore = defineStore({
         picture: "https://picsum.photos/id/15/200/300",
         description:
           "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        price: 800.99,
-        rating: 4.8,
+        price: 700,
+        rating: 4,
       },
     ],
   }),
@@ -56,5 +56,11 @@ export const useTravelStore = defineStore({
       console.log("addTravel", travel);
       this.travels.push(travel);
     },
+    editTravel(id: number, newData: Travel) {
+      // console.log("editTravel", index, newData);
+      const index = this.travels.findIndex((travel) => travel.id === id);
+      this.travels[index] = newData;
+    },
   },
 });
+

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { object, string, number, type InferType } from 'yup'
 import { useTravelStore } from '~/store/travelsStore';
+import type { Travel } from '~/types';
 
 const store = useTravelStore();
 const schema = object({
@@ -14,17 +15,29 @@ const schema = object({
 
 type Schema = InferType<typeof schema>
 
+  const props = defineProps({
+    travelId: {
+      type: Number,
+      required: true
+    }
+  })
+
+const editedTravel: Travel | undefined = store.travels
+.find((travel: Travel) => travel.id === (props.travelId as unknown as number));
+
+console.log("editedTravel: ", editedTravel);
+
 const state = reactive({
-  name: "",
-  departureDates: "",
-  picture: "",
-  description: "",
-  price: 0,
-  rating: 5
+  name: editedTravel?.name,
+  departureDates: editedTravel?.departureDates || "",
+  picture: editedTravel?.picture || "",
+  description: editedTravel?.description || "",
+  price: editedTravel?.price || 0,
+  rating: editedTravel?.rating || 0
 })
 
 async function onSubmit (event) {
-  store.addTravel(event.data);
+  store.editTravel(props.travelId, event.data);
   console.log("event.data: ", event.data)
 }
 </script>
