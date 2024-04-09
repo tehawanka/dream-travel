@@ -1,66 +1,34 @@
 <script>
 import { reactive, computed } from 'vue';
-
+import { useTravelStore } from '@/store/travelsStore';
 export default {
   setup() {
-    const travels = reactive([
-      {
-        id: 1,
-        name: "Bermuda Triangle",
-        departureDates: "2023-01-01",
-        picture: "https://picsum.photos/id/10/200/300",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        price: "$1000",
-        rating: 4.5
-      },
-      {
-        id: 2,
-        name: "Spain",
-        departureDates: "2021-02-01",
-        picture: "https://picsum.photos/id/13/200/300",
-        description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        price: "$1500",
-        rating: 4.8
-      },
-      {
-        id: 3,
-        name: "Canada",
-        departureDates: "2024-03-01",
-        picture: "https://picsum.photos/id/14/200/300",
-        description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        price: "$1500",
-        rating: 4.8
-      },
-      {
-        id: 4,
-        name: "Australia",
-        departureDates: "2025-04-01",
-        picture: "https://picsum.photos/id/15/200/300",
-        description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        price: "$1500",
-        rating: 4.8
-      },
-      // Add more travel objects as needed
-    ]);
-
-    const filter = reactive({
-      name: '',
-      date: ''
-    });
-
-    const filteredTravels = computed(() => {
-      return travels.filter(travel => {
-        const nameMatch = travel.name.toLowerCase().includes(filter.name.toLowerCase());
-        const dateMatch = filter.date ? travel.departureDates === filter.date : true;
-        return nameMatch && dateMatch;
-      });
-    });
-    console.log(filteredTravels.value);
+    const store = useTravelStore();
     return {
-      travels: filteredTravels,
-      filter
+      travels: store.filteredTravels,
+      filter: store.filter
     };
-  }
+}
+    // const travels = reactive([);
+
+  //   const filter = reactive({
+  //     name: '',
+  //     date: ''
+  //   });
+
+  //   const filteredTravels = computed(() => {
+  //     return travels.filter(travel => {
+  //       const nameMatch = travel.name.toLowerCase().includes(filter.name.toLowerCase());
+  //       const dateMatch = filter.date ? travel.departureDates === filter.date : true;
+  //       return nameMatch && dateMatch;
+  //     });
+  //   });
+  //   console.log(filteredTravels.value);
+  //   return {
+  //     travels: filteredTravels,
+  //     filter
+  //   };
+  // }
 };
 </script>
 <template>
