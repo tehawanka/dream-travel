@@ -1,12 +1,11 @@
+<script lang="ts">
+import Navbar from '~/components/Navbar.vue';
+</script>
+
 <template>
   <div>
      <header>
-      <nav>
-      <ul>
-        <li><nuxt-link to="/travels">Travels</nuxt-link></li>
-        <li><nuxt-link to="/bookings">Booking</nuxt-link></li>
-      </ul>
-    </nav>
+      <Navbar/>
      </header>
      <NuxtPage />
      <footer>
