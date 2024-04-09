@@ -1,38 +1,37 @@
 <script>
 import { reactive, computed } from 'vue';
 import { useTravelStore } from '@/store/travelsStore';
+import AddEditTravelForm from './AddEditTravelForm.vue';
 export default {
   setup() {
     const store = useTravelStore();
-    return {
-      travels: store.filteredTravels,
-      filter: store.filter
+    const deleteTravel = (id) => {
+      store.deleteTravel(id);
     };
-}
-    // const travels = reactive([);
+    const filter = reactive({
+      name: '',
+      date: ''
+    });
 
-  //   const filter = reactive({
-  //     name: '',
-  //     date: ''
-  //   });
-
-  //   const filteredTravels = computed(() => {
-  //     return travels.filter(travel => {
-  //       const nameMatch = travel.name.toLowerCase().includes(filter.name.toLowerCase());
-  //       const dateMatch = filter.date ? travel.departureDates === filter.date : true;
-  //       return nameMatch && dateMatch;
-  //     });
-  //   });
-  //   console.log(filteredTravels.value);
-  //   return {
-  //     travels: filteredTravels,
-  //     filter
-  //   };
-  // }
+    const filteredTravels = computed(() => {
+      return store.travels.filter(travel => {
+        const nameMatch = travel.name.toLowerCase().includes(filter.name.toLowerCase());
+        const dateMatch = filter.date ? travel.departureDates === filter.date : true;
+        return nameMatch && dateMatch;
+      });
+    });
+    console.log("filteredTravels: ", filteredTravels);
+    return {
+      travels: filteredTravels,
+      filter,
+      deleteTravel
+    };
+  }
 };
 </script>
 <template>
   <div class="container mx-auto">
+    <AddEditTravelForm />
     <input v-model="filter.name" type="text" placeholder="Search by name" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
     <input v-model="filter.date" type="date" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
     <table class="min-w-full bg-white">
@@ -54,14 +53,11 @@ export default {
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ travel.description }}</td>
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ travel.price }}</td>
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ travel.rating }}</td>
+          <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">
+            <button @click="() => deleteTravel(travel.id)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
-
-
-
-<style>
-/* Add any custom styles here */
-</style>
