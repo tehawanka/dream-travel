@@ -61,6 +61,9 @@ export const useTravelStore = defineStore({
       const index = this.travels.findIndex((travel) => travel.id === id);
       this.travels[index] = newData;
     },
+    getTravelName(id: number) {
+      return this.travels.find((travel) => travel.id === id)?.name;
+    },
   },
 });
 

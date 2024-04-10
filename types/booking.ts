@@ -1,4 +1,7 @@
 export type Booking = {
   id: number;
-  name: string;
+  travelId: number;
+  customersInfo: string;
+  paymentType: string;
+  notes?: string;
 };

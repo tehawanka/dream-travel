@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import TravelsTable from '~/components/TravelsTable.vue';
+import TravelTable from '~/components/TravelTable.vue';
 </script>
 
 <template>
   <div>
     <div>
-      <TravelsTable />
+      <TravelTable />
     </div>
   </div>
 </template>

@@ -23,7 +23,7 @@ const state = reactive({
   description: "",
   price: 0,
   rating: 5
-})
+});
 
 async function onSubmit (event) {
   store.addTravel(event.data);

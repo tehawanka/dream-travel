@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import BookingTable from '~/components/BookingTable.vue';
 
 </script>
 <template>
   <div>
-    <h1>Bookings Page!</h1>
-    <p>You can book your travels</p>
+    <BookingTable />
   </div>
 </template>
