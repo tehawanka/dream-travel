@@ -9,4 +9,8 @@ export default defineNuxtConfig({
     },
   },
   modules: ["@pinia/nuxt", "@nuxt/ui"],
+  //https://github.com/nuxt/nuxt/issues/20596
+  experimental: {
+    watcher: "chokidar",
+  },
 });

@@ -1,9 +1,26 @@
 <script setup lang="ts">
 import {useTravelStore} from '~/store/travelsStore';
 import type {Travel} from '~/types';
+import { defineEmits } from 'vue';
+import { ref } from 'vue';
 
-const { travels }= useTravelStore();
+const { travels } = useTravelStore();
+const selected: globalThis.Ref<Travel | string> = ref('');
+const emit = defineEmits(['travelSelected']);
 
+const emitSelectedTravelId = () => {
+  if (selected.value) {
+      emit('travelSelected', (selected.value as Travel).id);
+  }
+}
+
+onMounted(() => {
+  emitSelectedTravelId();
+});
+
+onUpdated(() => {
+  emitSelectedTravelId();
+});
 
 </script>
 <template>

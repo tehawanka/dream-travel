@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { object, string, number, type InferType } from 'yup'
 import { useTravelStore } from '~/store/travelsStore';
-import type { Travel } from '~/types';
 
 const store = useTravelStore();
 const schema = object({
@@ -11,12 +10,12 @@ const schema = object({
   description: string().required('Required'),
   price: number().required('Required').positive().integer(),
   rating: number().required('Required').positive().integer().max(5)
-})
+});
 
 type Schema = InferType<typeof schema>
 
 
-const state = reactive({
+const state = ref({
   name: "",
   departureDates: "",
   picture: "",
