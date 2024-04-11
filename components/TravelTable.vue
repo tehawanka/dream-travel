@@ -1,42 +1,34 @@
-<script>
+<script setup lang="ts">
 import { reactive, computed } from 'vue';
 import { useTravelStore } from '@/store/travelsStore';
 import EditTravelForm from './EditTravelForm.vue';
 import AddTravelForm from './AddTravelForm.vue';
 
-export default {
-  setup() {
-    const store = useTravelStore();
-    const deleteTravel = (id) => {
-      store.deleteTravel(id);
-    };
-    const filter = reactive({
-      name: '',
-      date: ''
-    });
-
-    const filteredTravels = computed(() => {
-      return store.travels.filter(travel => {
-        const nameMatch = travel.name.toLowerCase().includes(filter.name.toLowerCase());
-        const dateMatch = filter.date ? travel.departureDates === filter.date : true;
-        return nameMatch && dateMatch;
-      });
-    });
-    console.log("filteredTravels: ", filteredTravels);
-    return {
-      travels: filteredTravels,
-      filter,
-      deleteTravel
-    };
-  }
+const store = useTravelStore();
+const deleteTravel = (id) => {
+  store.deleteTravel(id);
 };
+
+const name = ref('');
+const date = ref('');
+
+const filteredTravels = computed(() => {
+ return store.travels.filter(travel => {
+    const nameMatch = travel.name.toLowerCase().includes(name.value.toLowerCase());
+    const dateMatch = date.value ? travel.departureDates === date.value : true;
+    return nameMatch && dateMatch;
+ });
+});
+    console.log("filteredTravels: ", filteredTravels);
+    
+
 </script>
 <template>
   <div class="container mx-auto">
     <!-- <AddTravelForm /> -->
-    <EditTravelForm :travelId="1"/>
-    <input v-model="filter.name" type="text" placeholder="Search by name" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
-    <input v-model="filter.date" type="date" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
+    <!-- <EditTravelForm :travelId="1"/> -->
+    <input v-model="name.value" type="text" placeholder="Search by name" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
+    <input v-model="date.value" type="date" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
     <table class="min-w-full bg-white">
       <thead>
         <tr>
@@ -49,7 +41,7 @@ export default {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="travel in travels" :key="travel.id">
+        <tr v-for="travel in filteredTravels" :key="travel.id">
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ travel.name }}</td>
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ travel.departureDates }}</td>
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap"><img :src="travel.picture" alt="Travel Picture" class="h-16 w-16 object-cover"></td>

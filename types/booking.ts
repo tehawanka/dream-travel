@@ -6,6 +6,7 @@ export type Booking = {
     email: string;
     phone: string;
     age: number;
+    gender: string;
   };
   paymentType: string;
   notes?: string;

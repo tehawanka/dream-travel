@@ -2,6 +2,12 @@
 import { ref } from 'vue';
 import CustomerForm from './CustomerForm.vue';
 
+const props = defineProps({
+  closeModal: {
+    type: Function,
+    required: true
+  }
+});
 const step = ref(1);
 
 const nextStep = () => {
@@ -15,13 +21,27 @@ const prevStep = () => {
     step.value -= 1;
   }
 };
+const formRef = ref(null);
+const handleSubmit = () => {
+  if (formRef.value) {
+    formRef?.value.onSubmit();
+    props.closeModal();
+  }
+};
 </script>
 <template>
-  <div class="wizard">
-    <CustomerForm :step="step"/>
-    <div class="wizard-footer">
-      <button @click="prevStep">Previous</button>
-      <button v-if="step !== 3" @click="nextStep">Next</button>
-    </div>
-  </div>
+   <UCard 
+    :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }" 
+    style="width: 600px; height: 600px; padding: 10px auto;"
+    >
+      <div class="h-500">
+        <CustomerForm :step="step" ref="formRef"/>
+      </div>
+        <template #footer>
+          <UButton label="Previous" @click="prevStep" />
+          <UButton v-if="step !== 3" label="Next" @click="nextStep" />
+          <UButton v-if="step === 3" label="Submit" @click="handleSubmit" />
+        </template>
+      
+    </UCard>
 </template>

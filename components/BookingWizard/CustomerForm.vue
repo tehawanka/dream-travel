@@ -37,7 +37,9 @@ const customerState = ref({
   name: "",
   email: "",
   phone: "",
-  age: 0});
+  age: 0,
+  gender: ""
+});
 
 const travelId = ref(0);
 const paymentType = ref('');
@@ -50,8 +52,8 @@ const handleTravelSelected = (selectedTravelId: Travel["id"]) => {
   travelId.value = selectedTravelId;
 };
 
-
 const onSubmit = (event: FormSubmitEvent<Schema>) => {
+  console.log("onSubmit");
   if (travelId.value && paymentType.value) {
    const bookingData = {
     id: bookingStore.bookings.length + 1,
@@ -59,10 +61,11 @@ const onSubmit = (event: FormSubmitEvent<Schema>) => {
     customersInfo: {...event.data},
     paymentType: paymentType.value,
     notes: "",
-   };
-   bookingStore.addBooking(bookingData);
+   };  
+  bookingStore.addBooking(bookingData);
   }
 };
+defineExpose({ onSubmit });
 
 </script>
 <template>
@@ -93,9 +96,6 @@ const onSubmit = (event: FormSubmitEvent<Schema>) => {
         <PaymentTypeSelect
           @selectPaymentType="handleSelectPaymentType"
         />
-        <UButton type="submit">
-          Submit
-        </UButton>
       </UFormGroup>
     </UForm>
   </div>
