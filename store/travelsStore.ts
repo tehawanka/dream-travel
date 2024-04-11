@@ -49,15 +49,13 @@ export const useTravelStore = defineStore({
 
   actions: {
     deleteTravel(id: number) {
-      console.log("deleteTravel", id);
       this.travels = this.travels.filter((travel) => travel.id !== id);
     },
     addTravel(travel: Travel) {
-      console.log("addTravel", travel);
-      this.travels.push(travel);
+      const id = this.travels.length + 1;
+      this.travels.push({ ...travel, id });
     },
     editTravel(id: number, newData: Travel) {
-      // console.log("editTravel", index, newData);
       const index = this.travels.findIndex((travel) => travel.id === id);
       this.travels[index] = newData;
     },

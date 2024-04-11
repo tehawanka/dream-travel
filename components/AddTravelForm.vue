@@ -2,6 +2,13 @@
 import { object, string, number, type InferType } from 'yup'
 import { useTravelStore } from '~/store/travelsStore';
 
+const props = defineProps({
+    closeModal: {
+      type: Function,
+      required: true
+    }
+  });
+
 const store = useTravelStore();
 const schema = object({
   name: string().required('Required'),
@@ -11,9 +18,6 @@ const schema = object({
   price: number().required('Required').positive().integer(),
   rating: number().required('Required').positive().integer().max(5)
 });
-
-type Schema = InferType<typeof schema>
-
 
 const state = ref({
   name: "",
@@ -26,12 +30,12 @@ const state = ref({
 
 async function onSubmit (event) {
   store.addTravel(event.data);
-  console.log("event.data: ", event.data)
+  props.closeModal("add");
 }
 </script>
 
 <template>
-  <div class="add-edit-travel-form" style="width: 500px;">
+  <div class="add-edit-travel-form" style="width: 500px; padding: 1em">
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup label="Name" name="name">
         <UInput v-model="state.name" />
@@ -57,7 +61,7 @@ async function onSubmit (event) {
         <UInput v-model="state.rating" type="number" />
       </UFormGroup>
 
-      <UButton type="submit">
+      <UButton type="submit" class="bg-red-700 hover:bg-red-600">
         Submit
       </UButton>
     </UForm>

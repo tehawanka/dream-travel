@@ -22,7 +22,7 @@ const closeModal = () => {
         <tr>
           <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">id</th>
           <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Travel Name</th>
-          <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Customer Info</th>
+          <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Customer notes</th>
           <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Payment Type</th>
           <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Notes</th>
         </tr>
@@ -31,7 +31,7 @@ const closeModal = () => {
         <tr v-for="booking in bookings" :key="booking.id">
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ booking.id }}</td>
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ getTravelName(booking.travelId) }}</td>
-          <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ "customer info" }}</td>
+          <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ booking.customersInfo.name }}</td>
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ booking.paymentType }}</td>
           <td class="px-6 py-4 border-b border-gray-300 whitespace-nowrap">{{ booking.notes }}</td>
         </tr>

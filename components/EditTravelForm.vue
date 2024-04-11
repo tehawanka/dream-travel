@@ -19,13 +19,15 @@ type Schema = InferType<typeof schema>
     travelId: {
       type: Number,
       required: true
+    },
+    closeModal: {
+      type: Function,
+      required: true
     }
-  })
+  });
 
 const editedTravel: Travel | undefined = store.travels
 .find((travel: Travel) => travel.id === (props.travelId as unknown as number));
-
-console.log("editedTravel: ", editedTravel);
 
 const state = reactive({
   name: editedTravel?.name,
@@ -38,12 +40,12 @@ const state = reactive({
 
 async function onSubmit (event) {
   store.editTravel(props.travelId, event.data);
-  console.log("event.data: ", event.data)
+  props.closeModal("edit");
 }
 </script>
 
 <template>
-  <div class="add-edit-travel-form" style="width: 500px;">
+  <div class="add-edit-travel-form" style="width: 500px; padding: 1em">
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup label="Name" name="name">
         <UInput v-model="state.name" />
@@ -69,7 +71,7 @@ async function onSubmit (event) {
         <UInput v-model="state.rating" type="number" />
       </UFormGroup>
 
-      <UButton type="submit">
+      <UButton type="submit" class="bg-red-700 hover:bg-red-600">
         Submit
       </UButton>
     </UForm>

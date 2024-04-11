@@ -11,5 +11,3 @@ export type Booking = {
   paymentType: string;
   notes?: string;
 };
-
-export type PaymentType = "Credit transfer" | "Paypal" | "Revolut";

@@ -30,18 +30,28 @@ const handleSubmit = () => {
 };
 </script>
 <template>
-   <UCard 
+  <UCard 
     :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }" 
     style="width: 600px; height: 600px; padding: 10px auto;"
-    >
-      <div class="h-500">
-        <CustomerForm :step="step" ref="formRef"/>
+  >
+    <div class="h-500">
+      <CustomerForm :step="step" ref="formRef"/>
+    </div>
+    <template #footer>
+      <div class="flex justify-end  ">
+      <div class="w-80">
+        <UButton label="Previous" @click="prevStep" class="mr-2" />
+        <UButton v-if="step !== 3" label="Next" @click="nextStep" class="mr-2" />
       </div>
-        <template #footer>
-          <UButton label="Previous" @click="prevStep" />
-          <UButton v-if="step !== 3" label="Next" @click="nextStep" />
-          <UButton v-if="step === 3" label="Submit" @click="handleSubmit" />
-        </template>
-      
-    </UCard>
+      <div class="grow flex justify-end">
+        <UButton 
+          v-if="step === 3" 
+          label="Submit" 
+          @click="handleSubmit" 
+          class="mr-2 bg-red-700 hover:bg-red-600" 
+        />
+      </div>
+      </div>
+    </template>
+  </UCard>
 </template>

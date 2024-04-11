@@ -4,12 +4,12 @@ import type {Travel} from '~/types';
 import { ref } from 'vue';
 
 const { travels } = useTravelStore();
-const selected: globalThis.Ref<Travel | string> = ref('');
+const selected: globalThis.Ref<Travel | string> = ref(travels[0].name);
 const emit = defineEmits(['travelSelected']);
 
 const emitSelectedTravelId = () => {
   if (selected.value) {
-      emit('travelSelected', (selected.value as Travel).id);
+    emit('travelSelected', (selected.value as Travel).id);
   }
 }
 
@@ -26,7 +26,7 @@ onUpdated(() => {
   <UInputMenu
     v-model="selected"
     :options="travels"
-    placeholder="Select a travel"
+    placeholder="Select or search for travel"
     by="id"
     option-attribute="name"
     :search-attributes="['name']"
