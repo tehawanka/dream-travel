@@ -37,10 +37,5 @@ export const useBookingStore = defineStore({
       console.log("addBooking", booking);
       this.bookings.push(booking);
     },
-    // editBooking(id: number, newData: booking) {
-    //   // console.log("editbooking", index, newData);
-    //   const index = this.bookings.findIndex((booking) => booking.id === id);
-    //   this.bookings[index] = newData;
-    // },
   },
 });

@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { object, string, number, type InferType } from 'yup';
-import { watch, defineEmits, defineExpose } from 'vue';
+// import { } from 'vue';
+import type { PaymentType, Travel } from '~/types';
+import SearchTravelBox from './SearchTravelBox.vue';
+import PaymentTypeSelect from './PaymentTypeSelect.vue';
+import type { FormSubmitEvent } from '#ui/types'
+import { useBookingStore } from '~/store/bookingStore';
 
 export type CustomerFormData = {
   name: string;
@@ -10,20 +15,15 @@ export type CustomerFormData = {
   gender: string;
 };
 
+type Schema = InferType<typeof schema>
+
 const props = defineProps({
-  shouldBeSubmitted: {
-    type: Boolean,
+  step: {
+    type: Number,
     required: true
   }
 })
-
-const emit = defineEmits(['submit']);
-
-
-watch(() => props.shouldBeSubmitted, (newValue, oldValue) => {
- console.log('myProp changed from', oldValue, 'to', newValue);
-//  emit('submit', state.value);
-});
+const bookingStore = useBookingStore();
 
 const schema = object({
   name: string().required('Required'),
@@ -33,36 +33,69 @@ const schema = object({
   gender: string().required('Required')
 });
 
-const state = ref({
+const customerState = ref({
   name: "",
   email: "",
   phone: "",
   age: 0});
 
-// defineExpose({ state });
+const travelId = ref(0);
+const paymentType = ref('');
+
+const handleSelectPaymentType = (selectedPaymentType: PaymentType) => {
+  paymentType.value = selectedPaymentType;
+};
+
+const handleTravelSelected = (selectedTravelId: Travel["id"]) => {
+  travelId.value = selectedTravelId;
+};
+
+
+const onSubmit = (event: FormSubmitEvent<Schema>) => {
+  if (travelId.value && paymentType.value) {
+   const bookingData = {
+    id: bookingStore.bookings.length + 1,
+    travelId: travelId.value,
+    customersInfo: {...event.data},
+    paymentType: paymentType.value,
+    notes: "",
+   };
+   bookingStore.addBooking(bookingData);
+  }
+};
 
 </script>
 <template>
   <div class="add-edit-travel-form" style="width: 500px;">
-    <UForm :schema="schema" :state="state" class="space-y-4">
-      <UFormGroup label="Name" name="name">
-        <UInput v-model="state.name" />
+    Step: {{ props.step }}
+    <UForm :schema="schema" :state="customerState" class="space-y-4" @submit="onSubmit">
+      <UFormGroup v-show="props.step === 1">
+        <SearchTravelBox  @travelSelected="handleTravelSelected" />
       </UFormGroup>
-
-      <UFormGroup label="Email" name="email">
-        <UInput v-model="state.email" />
-      </UFormGroup>
-
-      <UFormGroup label="Phone" name="phone">
-        <UInput v-model="state.phone" />
-      </UFormGroup>
-
-      <UFormGroup label="Age" name="age">
-        <UInput v-model="state.age" type="number" />
-      </UFormGroup>
-
-      <UFormGroup label="Gender" name="gender">
-        <UInput v-model="state.gender" />
+      <div v-show="props.step === 2">
+        <UFormGroup label="Name" name="name">
+          <UInput v-model="customerState.name" />
+        </UFormGroup>
+        <UFormGroup label="Email" name="email">
+          <UInput v-model="customerState.email" />
+        </UFormGroup>
+        <UFormGroup label="Phone" name="phone">
+          <UInput v-model="customerState.phone" />
+        </UFormGroup>
+        <UFormGroup label="Age" name="age">
+          <UInput v-model="customerState.age" type="number" />
+        </UFormGroup>
+        <UFormGroup label="Gender" name="gender">
+          <UInput v-model="customerState.gender" />
+        </UFormGroup>
+      </div>
+      <UFormGroup v-show="props.step === 3">
+        <PaymentTypeSelect
+          @selectPaymentType="handleSelectPaymentType"
+        />
+        <UButton type="submit">
+          Submit
+        </UButton>
       </UFormGroup>
     </UForm>
   </div>

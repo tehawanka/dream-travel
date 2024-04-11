@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {useTravelStore} from '~/store/travelsStore';
 import type {Travel} from '~/types';
-import { defineEmits } from 'vue';
 import { ref } from 'vue';
 
 const { travels } = useTravelStore();
