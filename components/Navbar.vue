@@ -1,16 +1,25 @@
+<script setup lang="ts">
+const menuItems = [
+  [{
+    label: 'Travels',
+    path: '/travels',
+  }],
+  [{
+    label: 'Bookings',
+    path: '/bookings',
+  }]
+]
+</script>
 <template>
-<nav class="bg-white border-gray-200 dark:bg-gray-900">
- <div class="flex flex-wrap items-center justify-between mx-auto p-4">
-    <div class="hidden w-full md:block md:w-auto">
-      <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-        <li>
-          <NuxtLink to="/travels">Travels</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/bookings">Bookings</NuxtLink>
-        </li>
-      </ul>
-    </div>
+<nav class="bg-white border-gray-200 dark:bg-gray-900 shadow-lg">
+ <div class="flex menuItems-center justify-between p-4">
+  <h2 class="text-2xl font-bold">dream travel</h2>
+  <UDropdown :items="menuItems" :popper="{ offsetDistance: 1, placement: 'bottom-start' }">
+    <UButton color="white" label="Edit" trailing-icon="i-heroicons-chevron-down-20-solid" />
+    <template #item="{ item }">
+      <NuxtLink :to="item.path">{{ item.label }}</NuxtLink>
+    </template>
+  </UDropdown>
  </div>
 </nav>
 </template>
